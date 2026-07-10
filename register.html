@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Register — SCP Youth Soccer</title>
+<meta name="description" content="Find the right SCP Youth Soccer program and continue to registration — Recreation, Travel, Futsal, or Camps." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  /* Program picker */
+  .rg-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 8px; }
+  .rg-card { background: var(--paper); border: 0; text-align: left; font-family: var(--body); cursor: pointer; padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 6px; transition: transform .2s ease, box-shadow .2s ease, background .15s ease; position: relative; height: 100%; }
+  .rg-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(15,27,45,.14); z-index: 2; }
+  .rg-card.sel { background: var(--navy); }
+  .rg-card .rg-tier { align-self: flex-start; font-family: var(--mono); font-weight: 500; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; background: var(--gold); color: var(--navy); margin-bottom: 4px; }
+  .rg-card h3 { font-size: 24px; letter-spacing: -0.03em; color: var(--navy); }
+  .rg-card.sel h3 { color: #fff; }
+  .rg-card .rg-sub { font-family: var(--mono); font-size: 12px; color: var(--red); letter-spacing: 0.5px; }
+  .rg-card.sel .rg-sub { color: var(--gold); }
+  .rg-card p { font-size: 13.5px; color: var(--navy-70); margin: 4px 0 0; line-height: 1.5; }
+  .rg-card.sel p { color: rgba(255,255,255,.7); }
+  .rg-card .rg-pick { margin-top: auto; padding-top: 14px; font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: 0.6px; text-transform: uppercase; color: var(--red); display: inline-flex; align-items: center; gap: 7px; }
+  .rg-card.sel .rg-pick { color: var(--gold); }
+  .rg-card.sel .rg-pick::after { content: "✓"; }
+  .rg-card.disabled { cursor: default; opacity: .68; }
+  .rg-card.disabled:hover { transform: none; box-shadow: none; }
+  .rg-card.disabled .rg-tier { background: var(--line); color: var(--navy-70); }
+  .rg-card.disabled .rg-pick { color: var(--navy-50); }
+
+  /* Detail panel */
+  .rg-panel { background: var(--gray); border: 1px solid var(--line); border-radius: 8px; padding: 32px 30px; margin-top: 34px; }
+  .rg-panel.empty { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 140px; color: var(--navy-50); font-family: var(--mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+  .rg-panel-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; justify-content: space-between; }
+  .rg-panel-head h3 { font-size: 28px; letter-spacing: -0.03em; }
+  .rg-panel .rg-badge { font-family: var(--mono); font-weight: 500; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; background: var(--gold); color: var(--navy); }
+  .rg-panel .rg-desc { font-size: 14.5px; line-height: 1.65; color: var(--navy-70); max-width: 62ch; margin: 12px 0 0; }
+  .rg-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 22px; }
+  .rg-fact { background: var(--paper); padding: 14px 16px; }
+  .rg-fact b { display: block; font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--navy-50); margin-bottom: 4px; }
+  .rg-fact span { font-family: var(--display); font-weight: 800; font-size: 14px; letter-spacing: -0.01em; color: var(--navy); }
+  .rg-tier-box { margin-top: 26px; background: var(--paper); border: 1.5px solid var(--navy); border-radius: 8px; padding: 20px 20px 22px; }
+  .rg-tier-step { font-family: var(--mono); font-weight: 600; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--red); }
+  .rg-tier-step::before { content: "● "; }
+  .rg-tier-head { margin-top: 6px; font-family: var(--display); font-weight: 800; font-size: 21px; letter-spacing: -0.02em; text-transform: uppercase; color: var(--navy); }
+  .rg-tier-sub { margin: 6px 0 0; font-size: 13px; color: var(--navy-70); }
+  .rg-tier-req { font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: 0.3px; text-transform: none; color: var(--red); }
+  .rg-tiers { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+  .rg-tier-chip { font-family: var(--display); font-weight: 800; font-size: 14px; letter-spacing: 0.2px; text-transform: uppercase; color: var(--navy); background: var(--paper); border: 2px solid var(--navy-50); border-radius: 10px; padding: 13px 18px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: border-color .15s ease, background .15s ease, transform .15s ease; }
+  .rg-tier-chip .rg-tier-age { font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: 0.5px; text-transform: none; color: var(--navy-50); }
+  .rg-tier-chip:hover { border-color: var(--red); transform: translateY(-2px); }
+  .rg-tier-chip.sel { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .rg-tier-chip.sel .rg-tier-age { color: var(--gold); }
+  .rg-tier-check { display: inline-flex; width: 18px; height: 18px; align-items: center; justify-content: center; border-radius: 50%; background: var(--gold); color: var(--navy); font-size: 11px; font-weight: 800; }
+  .rg-tier-detail { margin-top: 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; font-family: var(--display); font-weight: 800; font-size: 13px; letter-spacing: -0.01em; text-transform: uppercase; color: var(--navy); }
+  .rg-tier-detail p { font-family: var(--body); font-weight: 400; font-size: 13.5px; letter-spacing: normal; text-transform: none; color: var(--navy-70); margin: 6px 0 0; line-height: 1.5; }
+  .rg-carryover { margin: 12px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--red); background: rgba(176,37,42,.08); border: 1px solid rgba(176,37,42,.2); border-radius: 6px; padding: 10px 14px; }
+  .rg-notes { margin: 22px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .rg-notes li { font-size: 13.5px; color: var(--navy-70); line-height: 1.5; padding-left: 18px; position: relative; }
+  .rg-notes li::before { content: "●"; position: absolute; left: 0; top: 3px; font-size: 8px; color: var(--red); }
+  .rg-panel-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+  .btn-disabled { background: var(--line); color: var(--navy-50); cursor: not-allowed; pointer-events: none; box-shadow: none; }
+  .btn-disabled:hover { transform: none; box-shadow: none; }
+
+  @media (min-width: 600px) { .rg-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 940px) { .rg-grid { grid-template-columns: repeat(4, 1fr); } }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════ -->
+<header class="site-header" id="header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="SCP Youth Soccer home">
+      <img src="images/scp-logo.png" alt="SCP Youth Soccer crest" />
+      <span class="bn">SCP Youth Soccer</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <div class="nav-drop">
+        <a href="programs.html" class="nav-drop-trigger">Programs <span class="caret">▾</span></a>
+        <div class="nav-drop-menu">
+          <a href="recreation.html">Recreation</a>
+          <a href="travel.html">Travel</a>
+          <a href="futsal.html">Futsal</a>
+        </div>
+      </div>
+      <a href="tryouts.html">Travel Tryouts</a>
+      <div class="nav-drop">
+        <a href="about.html" class="nav-drop-trigger">About <span class="caret">▾</span></a>
+        <div class="nav-drop-menu">
+          <a href="about.html">Mission</a>
+          <a href="coaches.html">Coaches</a>
+          <a href="partners.html">Partners</a>
+          <a href="scholarship.html">Scholarship</a>
+          <a href="reviews.html">Reviews</a>
+          <a href="resources.html">Resources</a>
+        </div>
+      </div>
+      <a href="news.html">News &amp; Events</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="header-cta">
+      <a class="btn btn-primary btn-sm" href="register.html">Register →</a>
+    </div>
+
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a class="mlink" href="index.html">Home <span class="ix">/ 01</span></a>
+  <div class="mprogram-group">
+    <a class="mlink" href="programs.html">Programs <span class="ix">/ 02</span></a>
+    <div class="msub">
+      <a class="msublink" href="recreation.html">Recreation</a>
+      <a class="msublink" href="travel.html">Travel</a>
+      <a class="msublink" href="futsal.html">Futsal</a>
+    </div>
+  </div>
+  <a class="mlink" href="tryouts.html">Travel Tryouts <span class="ix">/ 03</span></a>
+  <div class="mprogram-group">
+    <a class="mlink" href="about.html">About <span class="ix">/ 04</span></a>
+    <div class="msub">
+      <a class="msublink" href="coaches.html">Coaches</a>
+      <a class="msublink" href="partners.html">Partners</a>
+      <a class="msublink" href="scholarship.html">Scholarship</a>
+      <a class="msublink" href="reviews.html">Reviews</a>
+      <a class="msublink" href="resources.html">Resources</a>
+    </div>
+  </div>
+  <a class="mlink" href="news.html">News &amp; Events <span class="ix">/ 05</span></a>
+  <a class="mlink" href="contact.html">Contact <span class="ix">/ 06</span></a>
+  <div class="mcta">
+    <a class="btn btn-primary" href="register.html">Register now →</a>
+  </div>
+  <div class="mmeta">
+    33 N 23rd Street, Kenilworth NJ 07033<br />
+    908-845-4SCP (4727) · scpyouthsoccer@gmail.com
+  </div>
+</div>
+
+<!-- ═══ PAGE HERO ═════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="glow phglow"></div>
+  <div class="wrap">
+    <span class="eyebrow gold">Start here</span>
+    <h1>Find your <span class="masque">program.</span></h1>
+    <p class="sub">Pick a program below to see ages, season, and cost — then continue straight to that program's registration or tryout sign-up.</p>
+  </div>
+</section>
+
+<!-- ═══ PROGRAM PICKER ════════════════════════════════ -->
+<section class="programs">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">Step 1</span>
+        <h2 style="margin-top:12px;">Choose a <span class="masque">program.</span></h2>
+      </div>
+    </div>
+
+    <div class="rg-grid" id="rgGrid" role="group" aria-label="Choose a program">
+      <button class="rg-card" data-program="recreation" type="button">
+        <span class="rg-tier">Ages 3–11</span>
+        <h3>Recreation</h3>
+        <div class="rg-sub">Fall · in-town</div>
+        <p>Fun-first soccer that builds coordination, confidence, and a love of the game.</p>
+        <span class="rg-pick">Select Recreation</span>
+      </button>
+      <button class="rg-card" data-program="travel" type="button">
+        <span class="rg-tier">Ages 8–15</span>
+        <h3>Travel</h3>
+        <div class="rg-sub">Tryout · full season</div>
+        <p>Competitive teams representing SCP across Central Jersey, selected through spring tryouts.</p>
+        <span class="rg-pick">Select Travel</span>
+      </button>
+      <button class="rg-card" data-program="futsal" type="button">
+        <span class="rg-tier">Ages 10-15</span>
+        <h3>Futsal</h3>
+        <div class="rg-sub">Winter · indoor</div>
+        <p>Fast, small-sided indoor play through the winter — invite or tryout.</p>
+        <span class="rg-pick">Select Futsal</span>
+      </button>
+      <button class="rg-card disabled" data-program="camps" type="button" disabled aria-disabled="true">
+        <span class="rg-tier">Coming soon</span>
+        <h3>Camps</h3>
+        <div class="rg-sub">Summer &amp; holidays</div>
+        <p>Skill-building camps and clinics, open to club and non-club players alike — not yet open for registration.</p>
+        <span class="rg-pick">Not yet available</span>
+      </button>
+    </div>
+
+    <div class="rg-panel empty" id="rgPanel">Select a program above to see registration details</div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="glow fglow1"></div>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="fbrand">
+        <div class="flock">
+          <img src="images/scp-logo.png" alt="SCP Youth Soccer crest" />
+          <span class="fwm">SCP Youth Soccer</span>
+        </div>
+        <p class="ftag">Speed · Conditioning · Performance. Developing players on and off the pitch since 2016.</p>
+        <span class="np-badge">Non-Profit Organization</span>
+      </div>
+
+      <div class="fcols">
+        <div class="fcol">
+          <h4>Programs</h4>
+          <a href="recreation.html">Recreation</a>
+          <a href="travel.html">Travel</a>
+          <a href="tryouts.html">Travel Tryouts</a>
+          <a href="futsal.html">Futsal</a>
+          <span class="soon">Camps &amp; Clinics <em style="font-style:normal;opacity:.7;">— coming soon</em></span>
+        </div>
+        <div class="fcol">
+          <h4>Club</h4>
+          <a href="about.html">About</a>
+          <a href="coaches.html">Coaches</a>
+          <a href="partners.html">Partners</a>
+          <a href="scholarship.html">Scholarship</a>
+          <a href="reviews.html">Reviews</a>
+          <a href="news.html">News &amp; Events</a>
+          <a href="resources.html">Resources</a>
+        </div>
+        <div class="fcol fconnect">
+          <h4>Connect</h4>
+          <div class="nap">
+            <b>Address</b>
+            SCP Kenilworth Recreation<br />33 N 23rd Street, Kenilworth NJ 07033
+            <b>Contact</b>
+            908-845-4SCP (4727)<br />scpyouthsoccer@gmail.com
+            <b>Fields</b>
+            <a class="nap-link" href="fields.html">See all locations →</a>
+          </div>
+          <div class="socials">
+            <a class="soc" href="https://www.instagram.com/scpyouthsoccerclub/" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a class="soc" href="https://www.facebook.com/groups/SCPyouthsoccer/" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
+            <a class="soc" href="https://www.tiktok.com/@scpyouthsoccer" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+            <a class="soc" href="https://www.youtube.com/channel/UCcHoDvBCaJ1tjJgtuehPZBg" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+            <a class="soc" href="https://linktr.ee/scpyouthsoccer" aria-label="Linktree"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.511 5.853l4.005-4.117 2.325 2.381-4.201 4.005h5.909v3.305h-5.937l4.229 4.108-2.325 2.334-5.741-5.769-5.741 5.769-2.325-2.334 4.229-4.108H1.451V8.122h5.909l-4.201-4.005 2.325-2.381 4.005 4.117V0h3.022v5.853zM10.489 14.794h3.022V24h-3.022v-9.206z"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="copy">© 2026 SCP Youth Soccer · Kenilworth, NJ</span>
+      <div class="legal">
+        <a href="privacy.html">Privacy &amp; Terms</a>
+        <a href="uniform-policy.html">Uniform Policy</a>
+        <a href="tryout-policy-procedures.html">Tryout Policy</a>
+        <a href="travel-refund-policy.html">Travel Refund Policy</a>
+        <a href="rec-refund-policy.html">Rec Refund Policy</a>
+        <a href="parent-code-of-conduct.html">Parent Code of Conduct</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="site.js" defer></script>
+<script src="register.js" defer></script>
+</body>
+</html>

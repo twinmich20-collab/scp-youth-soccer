@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Schedule/Steps component — options</title>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  body { background: #C7C4BC; }
+  .frame { position: absolute; background: var(--paper); box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+  .frame-label { position: absolute; top: -34px; left: 0; font-family: var(--mono); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #3a3a3a; }
+  .frame-label b { color: var(--red); }
+  .demo-pad { padding: 44px 40px; }
+  .demo-head { margin-bottom: 26px; }
+  .demo-head .eyebrow { margin-bottom: 10px; }
+  .demo-head h2 { font-size: 30px; letter-spacing: -0.03em; }
+
+  /* ── OPTION 1: TICKET STUB ─────────────────────── */
+  .ticket-list { display: flex; flex-direction: column; gap: 14px; }
+  .ticket-row { display: grid; grid-template-columns: 118px 1fr; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 0 var(--line); border: 1px solid var(--line); }
+  .ticket-date { background: var(--navy); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 14px 8px; position: relative; text-align: center; }
+  .ticket-date::after { content: ""; position: absolute; right: -7px; top: 0; bottom: 0; width: 14px; background-image: radial-gradient(circle 7px at 0 0, transparent 7px, var(--paper) 7.5px), radial-gradient(circle 7px at 0 100%, transparent 7px, var(--paper) 7.5px); background-repeat: no-repeat; background-position: top, bottom; background-size: 100% 50%; }
+  .ticket-date .tm { font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); }
+  .ticket-date .td { font-family: var(--display); font-weight: 800; font-size: 22px; letter-spacing: -0.02em; line-height: 1.1; margin-top: 4px; }
+  .ticket-body { padding: 16px 22px; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+  .ticket-body .tt { font-family: var(--display); font-weight: 800; font-size: 17px; letter-spacing: -0.02em; text-transform: uppercase; }
+  .ticket-body .tn { font-size: 13.5px; color: var(--navy-70); }
+
+  /* ── OPTION 2: TIMELINE RAIL ───────────────────── */
+  .rail-list { position: relative; padding-left: 6px; }
+  .rail-list::before { content: ""; position: absolute; left: 21px; top: 8px; bottom: 8px; width: 2px; background: var(--line); }
+  .rail-item { position: relative; display: flex; gap: 20px; padding: 0 0 28px 0; }
+  .rail-item:last-child { padding-bottom: 0; }
+  .rail-node { position: relative; z-index: 2; flex: none; width: 44px; height: 44px; border-radius: 999px; background: var(--red); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-weight: 700; font-size: 13px; box-shadow: 0 0 0 5px var(--paper); }
+  .rail-item:first-child .rail-node { background: var(--gold); color: var(--navy); }
+  .rail-content { padding-top: 6px; }
+  .rail-content .rd { font-family: var(--mono); font-weight: 600; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--red); }
+  .rail-content .rt { font-family: var(--display); font-weight: 800; font-size: 19px; letter-spacing: -0.02em; text-transform: uppercase; margin-top: 3px; }
+  .rail-content .rn { font-size: 13.5px; color: var(--navy-70); margin-top: 4px; max-width: 46ch; }
+
+  /* ── OPTION 3: SPLIT BOLD ROWS ─────────────────── */
+  .split-list { display: flex; flex-direction: column; }
+  .split-row { display: grid; grid-template-columns: 130px 1fr auto; align-items: center; gap: 18px; padding: 20px 6px; border-bottom: 1px solid var(--line); transition: background .15s ease; }
+  .split-row:first-child { border-top: 1px solid var(--line); }
+  .split-row:hover { background: var(--gray); }
+  .split-when { font-family: var(--display); font-weight: 800; font-size: 15px; letter-spacing: 0.2px; text-transform: uppercase; background: var(--navy); color: var(--gold); border-radius: 4px; padding: 8px 12px; text-align: center; }
+  .split-mid .st { font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: -0.02em; text-transform: uppercase; }
+  .split-mid .sn { font-size: 13px; color: var(--navy-70); margin-top: 3px; }
+  .split-arrow { font-family: var(--display); font-weight: 800; font-size: 20px; color: var(--red); }
+
+  /* ── OPTION 4: NUMBERED CARD GRID ──────────────── */
+  .ncard-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .ncard { background: var(--paper); padding: 22px 20px 24px; position: relative; transition: transform .2s ease, box-shadow .2s ease; }
+  .ncard:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(15,27,45,.14); z-index: 2; }
+  .ncard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gold); }
+  .ncard .nn { font-family: var(--mono); font-weight: 700; font-size: 26px; color: var(--red); }
+  .ncard .nt { font-family: var(--display); font-weight: 800; font-size: 17px; letter-spacing: -0.02em; text-transform: uppercase; margin-top: 10px; }
+  .ncard .nd { font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--navy-50); margin-top: 4px; }
+  .ncard .nn2 { font-size: 13px; color: var(--navy-70); margin-top: 8px; line-height: 1.5; }
+</style>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#0A0A0A"/>
+    <text x="50" y="58" font-size="34" text-anchor="middle" fill="#E8B22F" font-family="sans-serif">4</text>
+  </svg>
+</template>
+</head>
+<body>
+
+<!-- OPTION 1 -->
+<div class="frame" style="left:60px; top:120px; width:620px;">
+  <span class="frame-label"><b>Option 1</b> — Ticket stub</span>
+  <div class="demo-pad">
+    <div class="demo-head">
+      <span class="eyebrow">2026 season</span>
+      <h2 style="margin-top:10px;">Key dates.</h2>
+    </div>
+    <div class="ticket-list">
+      <div class="ticket-row">
+        <div class="ticket-date"><span class="tm">Winter</span><span class="td">Dec–Mar</span></div>
+        <div class="ticket-body"><span class="tt">Futsal winter season</span><span class="tn">Indoor, small-sided play through the winter months.</span></div>
+      </div>
+      <div class="ticket-row">
+        <div class="ticket-date"><span class="tm">Spring</span><span class="td">Apr 5</span></div>
+        <div class="ticket-body"><span class="tt">Spring season starts</span><span class="tn">Recreation and Travel teams kick off spring play.</span></div>
+      </div>
+      <div class="ticket-row">
+        <div class="ticket-date"><span class="tm">Spring</span><span class="td">Apr 12–14</span></div>
+        <div class="ticket-body"><span class="tt">Travel tryouts</span><span class="tn">Evaluations for U9–U15 travel teams across all age groups.</span></div>
+      </div>
+      <div class="ticket-row">
+        <div class="ticket-date"><span class="tm">Summer</span><span class="td">Jun–Aug</span></div>
+        <div class="ticket-body"><span class="tt">Camps &amp; clinics</span><span class="tn">Skill-building camps open to all ages, in and outside the club.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OPTION 2 -->
+<div class="frame" style="left:740px; top:120px; width:620px;">
+  <span class="frame-label"><b>Option 2</b> — Timeline rail</span>
+  <div class="demo-pad">
+    <div class="demo-head">
+      <span class="eyebrow">Policy &amp; procedure</span>
+      <h2 style="margin-top:10px;">How tryouts work.</h2>
+    </div>
+    <div class="rail-list">
+      <div class="rail-item">
+        <div class="rail-node">01</div>
+        <div class="rail-content"><span class="rd">Step 1</span><div class="rt">Register online</div><p class="rn">Players must register for the travel program before they're eligible to try out.</p></div>
+      </div>
+      <div class="rail-item">
+        <div class="rail-node">02</div>
+        <div class="rail-content"><span class="rd">Step 2</span><div class="rt">Attend 2 sessions</div><p class="rn">A minimum of two 60–90 minute sessions over a two-week window, for all ages U8–U16.</p></div>
+      </div>
+      <div class="rail-item">
+        <div class="rail-node">03</div>
+        <div class="rail-content"><span class="rd">Step 3</span><div class="rt">Get evaluated</div><p class="rn">Coaches score players through scrimmages and 4 skill stations.</p></div>
+      </div>
+      <div class="rail-item">
+        <div class="rail-node">04</div>
+        <div class="rail-content"><span class="rd">Step 4</span><div class="rt">Roster decisions</div><p class="rn">Head coaches determine roster spots; all players are notified directly.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OPTION 3 -->
+<div class="frame" style="left:60px; top:960px; width:1300px;">
+  <span class="frame-label"><b>Option 3</b> — Split bold rows</span>
+  <div class="demo-pad">
+    <div class="demo-head">
+      <span class="eyebrow">2026 season</span>
+      <h2 style="margin-top:10px;">Key dates.</h2>
+    </div>
+    <div class="split-list">
+      <div class="split-row">
+        <span class="split-when">Dec – Mar</span>
+        <div class="split-mid"><span class="st">Futsal winter season</span><div class="sn">Indoor, small-sided play through the winter months.</div></div>
+        <span class="split-arrow">→</span>
+      </div>
+      <div class="split-row">
+        <span class="split-when">Apr 5</span>
+        <div class="split-mid"><span class="st">Spring season starts</span><div class="sn">Recreation and Travel teams kick off spring play.</div></div>
+        <span class="split-arrow">→</span>
+      </div>
+      <div class="split-row">
+        <span class="split-when">Apr 12–14</span>
+        <div class="split-mid"><span class="st">Travel tryouts</span><div class="sn">Evaluations for U9–U15 travel teams across all age groups.</div></div>
+        <span class="split-arrow">→</span>
+      </div>
+      <div class="split-row">
+        <span class="split-when">Aug</span>
+        <div class="split-mid"><span class="st">Fall registration opens</span><div class="sn">Recreation sign-ups open ahead of the fall season.</div></div>
+        <span class="split-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OPTION 4 -->
+<div class="frame" style="left:60px; top:1600px; width:900px;">
+  <span class="frame-label"><b>Option 4</b> — Numbered card grid</span>
+  <div class="demo-pad">
+    <div class="demo-head">
+      <span class="eyebrow">Policy &amp; procedure</span>
+      <h2 style="margin-top:10px;">How tryouts work.</h2>
+    </div>
+    <div class="ncard-grid">
+      <div class="ncard"><span class="nn">01</span><div class="nt">Register online</div><div class="nd">Step 1</div><p class="nn2">Players must register for the travel program before they're eligible to try out.</p></div>
+      <div class="ncard"><span class="nn">02</span><div class="nt">Attend 2 sessions</div><div class="nd">Step 2</div><p class="nn2">A minimum of two 60–90 minute sessions over a two-week window.</p></div>
+      <div class="ncard"><span class="nn">03</span><div class="nt">Get evaluated</div><div class="nd">Step 3</div><p class="nn2">Coaches score players through scrimmages and 4 skill stations.</p></div>
+      <div class="ncard"><span class="nn">04</span><div class="nt">Roster decisions</div><div class="nd">Step 4</div><p class="nn2">Head coaches determine roster spots; all players are notified.</p></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
