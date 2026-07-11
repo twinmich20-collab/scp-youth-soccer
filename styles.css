@@ -348,6 +348,23 @@
   /* Alternate section background for visual rhythm */
   .programs.alt-bg, .calendar.alt-bg, .prose-section.alt-bg, .contact-section.alt-bg { background: var(--gray); }
 
+  /* ─── FAQ ACCORDION ──────────────────────────────── */
+  .faq-list { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; }
+  .faq-item { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; position: relative; transition: box-shadow .2s ease; }
+  .faq-item::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+  .faq-item[open] { box-shadow: 0 16px 34px rgba(15,27,45,.12); }
+  .faq-item[open]::before { transform: scaleX(1); }
+  .faq-item summary { cursor: pointer; list-style: none; padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; font-family: var(--display); font-weight: 800; font-size: 17px; letter-spacing: -0.02em; text-transform: uppercase; color: var(--navy); transition: background .15s ease; }
+  .faq-item summary:hover { background: var(--gray); }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item .faq-caret { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--gray); display: flex; align-items: center; justify-content: center; }
+  .faq-item .faq-caret svg { width: 16px; height: 16px; fill: none; stroke: var(--red); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .25s ease; }
+  .faq-item[open] .faq-caret { background: var(--red); }
+  .faq-item[open] .faq-caret svg { stroke: #fff; transform: rotate(180deg); }
+  .faq-item .faq-a { padding: 22px 28px 30px; border-top: 1px solid var(--line); }
+  .faq-item .faq-a p { margin: 0; font-size: 15.5px; line-height: 1.75; color: var(--navy-70); max-width: 68ch; }
+  .faq-item .faq-a a { color: var(--red); text-decoration: underline; text-underline-offset: 2px; }
+
   /* ─── FIELDS ─────────────────────────────────────── */
   .field-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 8px; }
   .field-card { background: var(--paper); padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; transition: transform .2s ease, box-shadow .2s ease; }
