@@ -59,7 +59,7 @@
 
   .brand { display: flex; align-items: center; gap: 12px; }
   .brand img { width: 46px; height: 46px; }
-  .brand .bn { display: block; font-family: var(--display); font-weight: 800; font-size: 17px; letter-spacing: -0.02em; text-transform: uppercase; color: #fff; }
+  .brand .bn { display: block; font-family: var(--wordmark); font-weight: 400; font-size: 20px; letter-spacing: 0.5px; text-transform: uppercase; color: #fff; line-height: 1; }
 
   .nav { display: none; margin-left: auto; align-items: center; gap: 26px; }
   .nav a { font-family: var(--display); font-weight: 800; font-size: 13px; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255,255,255,.82); position: relative; padding: 4px 0; transition: color .15s ease; }
