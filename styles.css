@@ -148,6 +148,7 @@
   .promo-text h2 { color: var(--navy); font-size: clamp(24px, 6vw, 32px); line-height: 1.02; letter-spacing: -0.03em; }
   .promo-text > p { font-family: var(--body); font-size: 14.5px; line-height: 1.55; color: var(--navy-70); margin: 0; max-width: 52ch; }
   .promo-dates { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 4px; }
+  .promo-card .promo-dates { grid-template-columns: repeat(3, 1fr); max-width: 420px; }
   .pd-item { background: var(--paper); padding: 10px 10px 11px; display: flex; flex-direction: column; gap: 3px; }
   .pd-l { font-family: var(--mono); font-weight: 500; font-size: 9.5px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--navy-50); }
   .pd-v { font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: -0.02em; color: var(--navy); }
@@ -284,6 +285,29 @@
   .mv-block ul.benefits { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; max-width: 62ch; }
   .mv-block ul.benefits li { position: relative; padding-left: 20px; font-size: 15px; line-height: 1.6; color: var(--navy-70); }
   .mv-block ul.benefits li::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+  /* Team section photo + Mini Stars schedule table (recreation.html) */
+  .team-tag { display: inline-block; font-family: var(--mono); font-weight: 700; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: var(--navy); color: #fff; }
+  .team-head-grid { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; margin-bottom: 32px; }
+  .team-photo { position: relative; aspect-ratio: 3 / 2; background-color: var(--gray-dark); background-image: repeating-linear-gradient(45deg, rgba(15,27,45,.04) 0 14px, rgba(15,27,45,0) 14px 28px); border-radius: 10px; overflow: hidden; }
+  .team-photo image-slot { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  @media (min-width: 780px) { .team-head-grid { grid-template-columns: 1fr minmax(280px, 460px); } }
+
+  .msched-loc-text { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.6px; text-transform: uppercase; color: var(--navy-50); margin: 6px 0 0; }
+  .msched-wrap { margin-top: 16px; }
+  .msched-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+  .msched-table { width: 100%; min-width: 640px; border-collapse: collapse; background: var(--paper); font-size: 15px; }
+  .msched-table th { background: var(--black); color: var(--gold); font-family: var(--mono); font-weight: 700; font-size: 12px; letter-spacing: 0.6px; text-transform: uppercase; padding: 14px 16px; text-align: center; white-space: nowrap; }
+  .msched-table th span { display: block; font-weight: 500; color: rgba(255,255,255,.65); font-size: 11px; margin-top: 3px; letter-spacing: 0.4px; }
+  .msched-table td { padding: 13px 16px; text-align: center; font-family: var(--mono); font-size: 15px; color: var(--navy); border-top: 1px solid var(--line); white-space: nowrap; }
+  .msched-table th:first-child, .msched-table th:nth-child(2), .msched-table td:first-child, .msched-table td:nth-child(2) { text-align: left; }
+  .msched-table .msched-team { font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px; font-size: 15px; }
+  .msched-table .msched-red { color: #fff; background: var(--red); }
+  .msched-table .msched-green { color: #fff; background: var(--green); }
+  .msched-table tr.msched-group td { border-top: 2px solid var(--ink); }
+  .msched-table td.msched-final { background: rgba(232,178,47,.2); font-weight: 700; }
+  .msched-table th.msched-final { background: var(--gold); color: var(--navy); }
+  .msched-table th.msched-final span { color: var(--navy); opacity: .75; }
+  .msched-note { font-size: 13.5px; color: var(--navy-70); margin-top: 12px; }
 
   /* Tryout schedule table */
   .tsched-grid { display: grid; grid-template-columns: 1fr; gap: 28px; margin-top: 24px; }
@@ -369,7 +393,7 @@
   .field-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 8px; }
   .field-card { background: var(--paper); padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 8px; transition: transform .2s ease, box-shadow .2s ease; }
   .field-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(15,27,45,.14); z-index: 2; }
-  .field-card .fc-tag { align-self: flex-start; font-family: var(--mono); font-weight: 500; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; background: var(--gold); color: var(--navy); }
+  .fc-tag { display: inline-block; align-self: flex-start; font-family: var(--mono); font-weight: 500; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; background: var(--gold); color: var(--navy); }
   .field-card h3 { font-size: 19px; letter-spacing: -0.02em; margin-top: 4px; }
   .field-card .fc-addr { font-size: 13px; color: var(--navy-70); margin-top: -4px; }
   .field-card .fc-map { margin-top: 10px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); }

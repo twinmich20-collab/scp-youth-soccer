@@ -1,4 +1,37 @@
 (function () {
+  /* ════════════════════════════════════════════════════════════════════
+     ARCHIVED — FALL 2026 RECREATION REGISTRATION DATA
+     Registration closed 8/24/2026, so PROGRAMS.recreation below was
+     swapped to a "closed" state (ctaDisabled + ctaNote, tiers/pricing
+     removed). To reopen for Fall 2027: replace the live recreation
+     object with this one, then update ages/pricing/dates/links.
+
+     recreation: {
+       title: 'Recreation',
+       badge: 'Ages 3–11',
+       desc: 'Fun-first, in-town soccer for Mini Stars, Little Stars, and Future Stars — 7 weeks each fall, run with the Kenilworth Recreation Department.',
+       facts: [
+         { label: 'Ages', val: '3–11' },
+         { label: 'Season', val: 'Fall · 7 weeks' },
+         { label: 'Cost', val: '$125–$170' }
+       ],
+       notes: [
+         'Open to local and out-of-town residents — no tryout required.',
+         'Bring shin guards, cleats, and a water bottle to every session.',
+         'Register with friends to request the same team.'
+       ],
+       ctaLabel: 'Continue to registration →',
+       ctaHref: 'https://clubs.bluesombrero.com/Default.aspx?tabid=1453370',
+       external: true,
+       learnMoreLabel: 'More about Recreation →',
+       learnMoreHref: 'recreation.html',
+       tiers: [
+         { key: 'mini', name: 'Mini Stars', ages: 'Ages 3–4', cost: '$140 · Early bird $125', desc: 'A 7-week Saturday program introducing balance, coordination, and confidence.', multiSession: true },
+         { key: 'little', name: 'Little Stars', ages: 'Ages 5–7', cost: '$170 · Early bird $155', desc: 'Weekday practice once a week, Saturday games in 4v4/5v5 small-sided format.' },
+         { key: 'future', name: 'Future Stars', ages: 'Ages 8–11', cost: '$170 · Early bird $155', desc: 'Weekday practice, Saturday games focused on player development and game awareness.' }
+       ]
+     }
+  ════════════════════════════════════════════════════════════════════ */
   var PROGRAMS = {
     recreation: {
       title: 'Recreation',
@@ -7,23 +40,18 @@
       facts: [
         { label: 'Ages', val: '3–11' },
         { label: 'Season', val: 'Fall · 7 weeks' },
-        { label: 'Cost', val: '$125–$170' }
+        { label: 'Registration', val: 'Closed' }
       ],
       notes: [
         'Open to local and out-of-town residents — no tryout required.',
         'Bring shin guards, cleats, and a water bottle to every session.',
-        'Register with friends to request the same team.'
+        'See the Recreation page for the current season schedule.'
       ],
-      ctaLabel: 'Continue to registration →',
-      ctaHref: 'https://clubs.bluesombrero.com/Default.aspx?tabid=1453370',
-      external: true,
-      learnMoreLabel: 'More about Recreation →',
-      learnMoreHref: 'recreation.html',
-      tiers: [
-        { key: 'mini', name: 'Mini Stars', ages: 'Ages 3–4', cost: '$140 · Early bird $125', desc: 'A 7-week Saturday program introducing balance, coordination, and confidence.', multiSession: true },
-        { key: 'little', name: 'Little Stars', ages: 'Ages 5–7', cost: '$170 · Early bird $155', desc: 'Weekday practice once a week, Saturday games in 4v4/5v5 small-sided format.' },
-        { key: 'future', name: 'Future Stars', ages: 'Ages 8–11', cost: '$170 · Early bird $155', desc: 'Weekday practice, Saturday games focused on player development and game awareness.' }
-      ]
+      ctaLabel: 'Registration is closed',
+      ctaDisabled: true,
+      ctaNote: 'Fall 2026 recreation registration has closed. Registration for Fall 2027 typically opens in June — check back here, or see the season schedule for current team info.',
+      learnMoreLabel: 'See the season schedule →',
+      learnMoreHref: 'recreation.html'
     },
     travel: {
       title: 'Travel',
